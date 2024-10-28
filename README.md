@@ -43,6 +43,7 @@ pip install rospkg
 ### 3. Create ROS Workspace
 ```shell
 cd $(workdir)
+mkdir src
 catkin_make
 cd src
 git clone https://github.com/TossherO/ros_packages.git
