@@ -71,6 +71,6 @@ rostopic echo /model_result
 **Step 3.** Publish the info_path to the node
 ```shell
 # terminal4
-rostopic pub /info_path std_msgs/String "data: 'data/detection/input.pkl'"
+rostopic pub /info_path std_msgs/String "data: 'src/data/detection_test/info.pkl'"
 ```
 At this time you can see that terminal2 outputs "get info_path: xxx" and terminal3 outputs the infer result of the model.

@@ -1,6 +1,6 @@
 _base_ = ['default_runtime.py']
 custom_imports = dict(
-    imports=['src.test_cmt.scripts.cmt'], allow_failed_imports=False)
+    imports=['src.detection.scripts.cmt'], allow_failed_imports=False)
 
 
 # optimizer

@@ -8,7 +8,7 @@ from torch.nn.init import (
 )
 from torch.nn.functional import linear
 from einops import rearrange
-from flash_attn.flash_attn_interface import flash_attn_unpadded_kvpacked_func
+from flash_attn.flash_attn_interface import flash_attn_varlen_kvpacked_func
 from flash_attn.bert_padding import unpad_input
 
 
@@ -62,7 +62,7 @@ class FlashAttention(nn.Module):
                                     device=q.device)
             cu_seqlens_k = torch.arange(0, (batch_size + 1) * seqlen_k, step=seqlen_k, dtype=torch.int32,
                                     device=kv.device)                    
-            output = flash_attn_unpadded_kvpacked_func(
+            output = flash_attn_varlen_kvpacked_func(
                 q, kv, cu_seqlens_q, cu_seqlens_k, max_sq, max_sk,
                 self.dropout_p if self.training else 0.0,
                 softmax_scale=self.softmax_scale, causal=causal
@@ -77,7 +77,7 @@ class FlashAttention(nn.Module):
             x = rearrange(kv, 'b s two h d -> b s (two h d)')
             x_unpad, indices, cu_seqlens_k, max_sk = unpad_input(x, key_padding_mask)
             x_unpad = rearrange(x_unpad, 'nnz (two h d) -> nnz two h d', two=2, h=nheads)
-            output_unpad = flash_attn_unpadded_kvpacked_func(
+            output_unpad = flash_attn_varlen_kvpacked_func(
                 q, x_unpad, cu_seqlens_q, cu_seqlens_k, max_sq, max_sk,
                 self.dropout_p if self.training else 0.0,
                 softmax_scale=self.softmax_scale, causal=causal

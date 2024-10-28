@@ -42,13 +42,13 @@ def callback(data):
     
     
 if __name__ == '__main__':
-    rospy.init_node('test_cmt', anonymous=True)
+    rospy.init_node('detection', anonymous=True)
     rospy.Subscriber("info_path", String, callback)
     pub = rospy.Publisher('model_result', String, queue_size=10)
     
     sys.path.append(osp.abspath('./'))
-    cfg = Config.fromfile('./src/test_cmt/scripts/configs/cmt_nus.py')
-    checkpoint = './src/test_cmt/ckpts/cmt_nus.pth'
+    cfg = Config.fromfile('./src/detection/scripts/configs/cmt_nus.py')
+    checkpoint = './src/detection/ckpts/cmt_nus.pth'
     register_all_modules()
     model = MODELS.build(cfg.model)
     pipeline = []
