@@ -8,7 +8,7 @@ I tested the code on OS ubuntu 20.04, using ROS Noetic. Make sure you are using 
 ### 2. Python Environment
 **Step 1.**  Create a conda environment and activate it.  
 ```shell
-conda create --n ros_perception python=3.10 -y
+conda create -n ros_perception python=3.10 -y
 conda activate ros_perception
 ```
 
