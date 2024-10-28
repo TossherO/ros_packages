@@ -35,9 +35,9 @@ pip install flash-attn==2.6.3
 You can visit https://github.com/traveller59/spconv to choose the suitable version of spconv for you.  
 Installing flash-attn directly via pip command may get stuck in the wheel package download process. You can visit https://github.com/Dao-AILab/flash-attention to download the corresponding wheel package, and then install flash-attn locally by pip command.
 
-**Step 5.**  Install rospkg
+**Step 5.**  Install ROS-related packages
 ```shell
-pip install rospkg
+pip install rospkg empy
 ```
 
 ### 3. Create ROS Workspace
@@ -45,8 +45,9 @@ pip install rospkg
 cd $(workdir)
 mkdir src
 catkin_make
-cd src
 git clone https://github.com/TossherO/ros_packages.git
+mv ros_packages/* src/
+rm -rf ros_packages
 catkin_make
 source ./devel/setup.bash
 ```
