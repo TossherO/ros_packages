@@ -40,6 +40,11 @@ Installing flash-attn directly via pip command may get stuck in the wheel packag
 pip install rospkg empy
 ```
 
+**Step 6.** Install other packages
+```
+pip install filterpy
+```
+
 ### 3. Create ROS Workspace
 ```shell
 cd $(workdir)
@@ -52,25 +57,31 @@ catkin_make
 source ./devel/setup.bash
 ```
 
-### 4. Test Detection Package
-**Step 1.** Download the model  
-Download the model file "cmt_nus.pth" from https://drive.google.com/file/d/1O4hoW_-s1qKFjimJtbjc2I3TiALjkpde/view?usp=sharing. Then create a folder named "ckpts" in the "\$(workdir)/src/detection" directory and put "cmt_nus.pth" in the folder.
+### 4. Test Perception
+**Step 1.** Download the data for test  
+Download the zip file ["CODA.zip"](https://drive.google.com/file/d/1dvm4JuWf62gtC4RCwwVQIvlb--2qm40e/view?usp=sharing). Then create a folder named "data/CODA" in the "\$(workdir)/src" directory and unzip "CODA.zip" to the folder.
 
-**Step 2.** Run the test script
+**Step 2.** Download the model  
+Download the model file ["detect_coda.pth"](https://drive.google.com/file/d/1OGpNygCHm8TqhHIPy13FNmypG9BdK-h6/view?usp=sharing). Then create a folder named "ckpts" in the "\$(workdir)/src/detection" directory and put "cmt_nus.pth" in the folder.
+
+**Step 3.** Run the test script
 ```shell
 # terminal1
 roscore
 
 # terminal2
-rosrun detection test_detection.py
+rosrun perception_test test_detection.py
 
 # terminal3
-rostopic echo /model_result
+rosrun perception_test test_tracking.py
+
+# terminal4
+rosrun perception_test test_traj_pred.py
 ```
 
-**Step 3.** Publish the info_path to the node
+**Step 4.** Publish the command to the detection node
 ```shell
-# terminal4
-rostopic pub /info_path std_msgs/String "data: 'src/data/detection_test/info.pkl'"
+# terminal5
+rostopic pub /perception_input std_msgs/String "data: 'n'"
 ```
-At this time you can see that terminal2 outputs "get info_path: xxx" and terminal3 outputs the infer result of the model.
+At this time you can see that terminal2~4 output infer information.

@@ -24,7 +24,7 @@ def data_preprocess(tracks):
     all_ids = list(tracks.keys())
     all_tracks = np.array([tracks[k] for k in all_ids])
     for i in range(len(all_tracks)):
-        if all_tracks[i][-1][0] > 1e8:
+        if all_tracks[i][-1][0] > 1e8 or all_tracks[i][-2][0] > 1e8:
             continue
         ob = all_tracks[i].copy()
         for j in range(6, -1, -1):
