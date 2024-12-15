@@ -59,10 +59,10 @@ source ./devel/setup.bash
 
 ### 4. Test Perception
 **Step 1.** Download the data for test  
-Download the zip file ["CODA.zip"](https://drive.google.com/file/d/1dvm4JuWf62gtC4RCwwVQIvlb--2qm40e/view?usp=sharing). Then create a folder named "data/CODA" in the "\$(workdir)/src" directory and unzip "CODA.zip" to the folder.
+Download the zip file [CODA.zip](https://drive.google.com/file/d/1dvm4JuWf62gtC4RCwwVQIvlb--2qm40e/view?usp=sharing). Then create a folder named "data/CODA" in the "\$(workdir)/src" directory and unzip "CODA.zip" to the folder.
 
 **Step 2.** Download the model  
-Download the model file ["detect_coda.pth"](https://drive.google.com/file/d/1OGpNygCHm8TqhHIPy13FNmypG9BdK-h6/view?usp=sharing). Then create a folder named "ckpts" in the "\$(workdir)/src/detection" directory and put "cmt_nus.pth" in the folder.
+Download the model file [detect_coda.pth](https://drive.google.com/file/d/1OGpNygCHm8TqhHIPy13FNmypG9BdK-h6/view?usp=sharing). Then create a folder named "ckpts" in the "\$(workdir)/src/detection" directory and put "detect_coda.pth" in the folder.
 
 **Step 3.** Run the test script
 ```shell
