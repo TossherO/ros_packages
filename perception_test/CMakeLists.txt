@@ -211,5 +211,6 @@ catkin_install_python(PROGRAMS
   scripts/test_detection.py
   scripts/test_tracking.py
   scripts/test_traj_pred.py
+  scripts/test_visual.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )

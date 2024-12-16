@@ -19,8 +19,8 @@ def callback(data):
         ego2global = np.array(data.ego2global).reshape(4, 4)
         pred_num = data.pred_num
         ids = data.ids
-        obs = np.array(data.obs).reshape(-1, 8, 2)
-        preds = np.array(data.preds).reshape(-1, pred_num, 12, 2)
+        obs = np.array(data.obs).reshape(-1, 16, 2)
+        preds = np.array(data.preds).reshape(-1, pred_num, 24, 2)
         scores = np.array(data.scores).reshape(-1, pred_num)
         
         # 获取自身的二维位置和朝向
@@ -66,7 +66,7 @@ if __name__ == '__main__':
     for data in data_info['data_list']:
         token = data['token']
         points_paths[token] = path_prefix + data['lidar_points']['lidar_path']
-    pcd_range = [-15.0, 15.0, -15.0, 15.0, -0.5, 5.0]
+    pcd_range = [-20.0, 20.0, -20.0, 20.0, -0.5, 6.0]
     pre_token = None
     data_plot = {
         'token': None,

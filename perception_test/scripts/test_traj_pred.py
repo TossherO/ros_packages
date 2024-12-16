@@ -13,7 +13,7 @@ from perception_test.msg import track_result, traj_pred_result
 
 def data_preprocess(tracks):
     
-    global config
+    global config, obs_len, pred_len
     obs = []
     neis = []
     n_neighbors = []
@@ -27,11 +27,11 @@ def data_preprocess(tracks):
         if all_tracks[i][-1][0] > 1e8 or all_tracks[i][-2][0] > 1e8:
             continue
         ob = all_tracks[i].copy()
-        for j in range(6, -1, -1):
+        for j in range(obs_len - 2, -1, -1):
             if ob[j][0] > 1e8:
                 ob[j] = ob[j+1]
         nei = all_tracks[np.arange(len(all_tracks)) != i]
-        dist = np.linalg.norm(ob.reshape(1, 8, 2) - nei, axis=-1)
+        dist = np.linalg.norm(ob.reshape(1, obs_len, 2) - nei, axis=-1)
         dist = np.min(dist, axis=-1)
         nei = nei[dist < config.dist_threshold]
         
@@ -76,25 +76,26 @@ def data_preprocess(tracks):
 
 def update_tracks(tracks, update_ids, update_bboxes):
     
+    global obs_len, pred_len
     is_updated = {k: False for k in tracks.keys()}
     for i in range(len(update_ids)):
         if tracks.get(update_ids[i]) is None:
-            tracks[update_ids[i]] = [[1e9, 1e9]] * 7 + [update_bboxes[i][:2].tolist()]
+            tracks[update_ids[i]] = [[1e9, 1e9]] * (obs_len - 1) + [update_bboxes[i][:2].tolist()]
         else:
             tracks[update_ids[i]].pop(0)
             tracks[update_ids[i]].append(update_bboxes[i][:2].tolist())
             # 对丢失的track进行线性插值
             lost_frame = -1
-            for j in range(1, 7):
+            for j in range(1, obs_len - 1):
                 if tracks[update_ids[i]][j][0] > 1e8 and tracks[update_ids[i]][j-1][0] < 1e8:
                     lost_frame = j
                     break
             if lost_frame != -1:
                 start = tracks[update_ids[i]][lost_frame - 1]
                 end = tracks[update_ids[i]][-1]
-                for j in range(lost_frame, 7):
-                    tracks[update_ids[i]][j] = [start[0] + (end[0] - start[0]) / (8 - lost_frame) * (j - lost_frame + 1),
-                                                start[1] + (end[1] - start[1]) / (8 - lost_frame) * (j - lost_frame + 1)]
+                for j in range(lost_frame, obs_len - 1):
+                    tracks[update_ids[i]][j] = [start[0] + (end[0] - start[0]) / (obs_len - lost_frame) * (j - lost_frame + 1),
+                                                start[1] + (end[1] - start[1]) / (obs_len - lost_frame) * (j - lost_frame + 1)]
             is_updated[update_ids[i]] = True
             
     for k in list(tracks.keys()):
@@ -105,7 +106,7 @@ def update_tracks(tracks, update_ids, update_bboxes):
 
 def callback(data):
     
-    global motion_modes, model, tracks
+    global motion_modes, model, tracks, obs_len, pred_len
     rospy.loginfo("traj_pred frame: %s", data.token)
     
     pedestrian_label = 1
@@ -131,7 +132,7 @@ def callback(data):
         obs, neis, neis_mask, refs, rot_mats, ids = data_input
         preds, scores = model(obs, neis, motion_modes, neis_mask, None, test=True, num_k=3)
         scores = torch.nn.functional.softmax(scores, dim=-1)
-        preds = preds.reshape(preds.shape[0], preds.shape[1], 12, 2)
+        preds = preds.reshape(preds.shape[0], preds.shape[1], pred_len, 2)
         rot_mats_T = rot_mats.transpose(1, 2)
         obs_ori = torch.matmul(obs, rot_mats_T) + refs.unsqueeze(1)
         preds_ori = torch.matmul(preds, rot_mats_T.unsqueeze(1)) + refs.unsqueeze(1).unsqueeze(2)
