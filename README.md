@@ -77,11 +77,14 @@ rosrun perception_test test_tracking.py
 
 # terminal4
 rosrun perception_test test_traj_pred.py
+
+# terminal5
+rosrun perception_test test_visual.py
 ```
 
 **Step 4.** Publish the command to the detection node
 ```shell
-# terminal5
-rostopic pub /perception_input std_msgs/String "data: 'n'"
+# terminal6
+rostopic pub -r 5 /perception_input std_msgs/String "data: 'n'"
 ```
-At this time you can see that terminal2~4 output infer information.
+At this time you can see that terminal2~4 output infer information, and a window display the trajectory prediction results.
