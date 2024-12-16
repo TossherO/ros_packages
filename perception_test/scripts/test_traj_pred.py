@@ -51,7 +51,10 @@ def data_preprocess(tracks):
         n_neighbors.append(nei.shape[0])
         rot_mats.append(rot_mat)
         ids.append(all_ids[i])
-        
+
+    if len(obs) == 0:
+        return None
+    
     max_neighbors = max(n_neighbors)
     if max_neighbors == 0:
         max_neighbors = 1
@@ -121,6 +124,9 @@ def callback(data):
     update_tracks(tracks, update_ids, update_bboxes)
             
     data_input = data_preprocess(tracks)
+    if data_input is None:
+        return
+
     with torch.no_grad():
         obs, neis, neis_mask, refs, rot_mats, ids = data_input
         preds, scores = model(obs, neis, motion_modes, neis_mask, None, test=True, num_k=3)
