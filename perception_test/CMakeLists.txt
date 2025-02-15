@@ -50,9 +50,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate messages in the 'msg' folder
 add_message_files(
   FILES
-  detect_result.msg
-  track_result.msg
-  traj_pred_result.msg
+  inputs.msg
+  visual_msgs.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -208,9 +207,7 @@ include_directories(
 # catkin_add_nosetests(test)
 
 catkin_install_python(PROGRAMS
-  scripts/test_detection.py
-  scripts/test_tracking.py
-  scripts/test_traj_pred.py
-  scripts/test_visual.py
+  scripts/infer.py
+  scripts/visual.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )

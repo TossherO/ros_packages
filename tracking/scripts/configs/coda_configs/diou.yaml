@@ -19,6 +19,7 @@ general:
     giou: -0.5
     diou: -0.2
   has_velo: false
+  single_match: false
 
 class_specific:
   car: None

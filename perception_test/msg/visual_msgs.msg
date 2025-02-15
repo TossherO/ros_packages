@@ -1,0 +1,11 @@
+string token
+string timestamp
+float64[] ego2global
+float64[] points
+float64[] bboxes
+int32[] labels
+int32[] ids
+float64[] obs_trajs
+float64[] pred_trajs
+int32[] traj_labels
+float64[] obs_h
