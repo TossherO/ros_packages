@@ -59,7 +59,7 @@ catkin_make
 
 ### 4. Test Perception
 **Step 1.** Download the data for test  
-Download the zip file [CODA.zip](https://drive.google.com/file/d/1dvm4JuWf62gtC4RCwwVQIvlb--2qm40e/view?usp=sharing). Then create a folder named "data/CODA" in the "\$(workdir)/src" directory and unzip "CODA.zip" to the folder.
+Download the zip file [CODA.zip](https://drive.google.com/file/d/11Wh5mzo2Bo14wTI92GREahCn4vjet0yT/view?usp=sharing). Then create a folder named "data/CODA" in the "\$(workdir)/src" directory and unzip "CODA.zip" to the folder.
 
 **Step 2.** Download the model  
 Download the model file [cmdt_coda.pth](https://drive.google.com/drive/folders/1PXP8glbf5VoRDix-hlE0TBfx-48icKI7?usp=sharing). Then create a folder named "ckpts" in the "\$(workdir)/src/detection" directory and put "cmdt_coda.pth" in the folder.
