@@ -137,8 +137,8 @@ def callback(data):
 if __name__ == '__main__':
     
     rospy.init_node('perception_infer', anonymous=True)
-    rospy.Subscriber("perception_input", String, callback)
-    pub = rospy.Publisher('perception_result', visual_msgs, queue_size=10)
+    rospy.Subscriber("/perception_input", String, callback)
+    pub = rospy.Publisher('/perception_result', visual_msgs, queue_size=10)
     
     # load detection model
     cfg = Config.fromfile('./src/detection/scripts/configs/cmdt_coda.py')

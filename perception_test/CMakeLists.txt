@@ -208,6 +208,8 @@ include_directories(
 
 catkin_install_python(PROGRAMS
   scripts/infer.py
+  scripts/infer2.py
   scripts/visual.py
+  scripts/visual2.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )

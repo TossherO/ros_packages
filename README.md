@@ -1,5 +1,5 @@
 # ros_packages
-This is my personal project which contains all the ros packages I have created for robotic intelligent perceptions or other functions.
+This is the ROS inference code for the paper "Lightweight LiDAR-Camera 3D Dynamic Object Detection and Multi-Class Trajectory Prediction"
 
 ## Get Started
 ### 1. Prerequisites

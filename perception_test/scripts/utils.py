@@ -20,7 +20,7 @@ def data_preprocess(tracks, config):
     all_bboxes = np.array([tracks[k]['bbox'] for k in all_label_ids])
 
     for i in range(len(all_tracks)):
-        if all_tracks[i][-1][0] > 1e8 or all_tracks[i][obs_len-2][0] > 1e8 or all_labels[i] == 3:
+        if all_tracks[i][-1][0] > 1e8 or all_tracks[i][obs_len-2][0] > 1e8 or all_labels[i] == config['num_class']:
             continue
         ob = all_tracks[i].copy()
         for j in range(obs_len - 2, -1, -1):
@@ -105,3 +105,17 @@ def update_tracks(tracks, labels, ids, xys, bboxes, config):
             else:
                 del tracks[k]
     return tracks
+
+
+def smooth_trajectories(trajectories, window_size=3):
+
+    # trajectories: tensor(bs, num, length, 2)
+    smoothed_trajectories = trajectories.clone()
+    for i in range(trajectories.shape[2]):
+        if i < window_size:
+            smoothed_trajectories[:, :, i] = torch.mean(trajectories[:, :, :i+window_size+1], dim=2)
+        elif i > trajectories.shape[2] - window_size - 1:
+            smoothed_trajectories[:, :, i] = torch.mean(trajectories[:, :, i-window_size:], dim=2)
+        else:
+            smoothed_trajectories[:, :, i] = torch.mean(trajectories[:, :, i-window_size:i+window_size+1], dim=2)
+    return smoothed_trajectories
